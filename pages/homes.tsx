@@ -7,14 +7,25 @@ import { AnimatedLoader } from '../components/AnimatedLoader';
 
 const Homes: NextPage = () => {
   const [homes, setHomes] = useState();
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('api/home')
-      .then((res) => res.json())
-      .then((data: Home[]) => setHomes(data));
-    setLoading(false);
-  }, [homes]);
+    async function fetchHomes() {
+      try {
+        const response = await fetch('api/homes');
+
+        if(response.status === 200) {
+          const fetchedHomes = await response.json();
+          setHomes(fetchedHomes);
+        }
+      } finally {
+        // even if there is an error on the fetch, remove the loader and just print the no-home message
+        setLoading(false);
+      }
+    }
+
+    fetchHomes();
+  }, []);
 
   if (isLoading) return <AnimatedLoader />
   if (!homes) return <p>No home to show, please reload the page!</p>
