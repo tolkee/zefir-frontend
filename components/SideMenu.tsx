@@ -1,17 +1,19 @@
+import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 import { HomeIcon } from './HomeIcon';
 
-const MenuEntry = ({ href, icon, title }: {
+const MenuEntry = ({ href, icon, title, isHighlighted = false }: {
   href: string
   icon: ReactNode
   title: ReactNode
+  isHighlighted?: boolean
 }) => {
   return (
     <a className="flex items-center justify-start p-2 my-0 font-thin text-gray-500 transition-colors duration-200 hover:text-gray-800 " href={href}>
       <span className="text-left">
         {icon}
       </span>
-      <span className="mx-4 font-normal text-md">
+      <span className={`mx-4 font-normal text-md ${isHighlighted && 'text-blue-500'}`}>
         {title}
       </span>
     </a>
@@ -32,6 +34,8 @@ export const SideMenu = () => {
     },
   ];
 
+  const {asPath: currentPath } = useRouter();
+
   return (
     <div className="relative h-full overflow-auto bg-white ">
       <div className="flex flex-col sm:flex-row sm:justify-around">
@@ -46,7 +50,7 @@ export const SideMenu = () => {
               </h2>
             </div>
             {menu.map(entry =>
-              <MenuEntry key={entry.title} {...entry} />
+              <MenuEntry key={entry.title} {...entry} isHighlighted={entry.href === currentPath} />
             )}
           </nav>
         </div>
