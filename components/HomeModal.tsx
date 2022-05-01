@@ -31,7 +31,7 @@ export const HomeModal = ({home, isVisible, onClose}: HomeModalProps) => {
           <HomeField label="Surface" value={home.surface} unit="m2" />
         </div>
         <div className="mb-2">
-          <HomeField label="Number of floors" value={home.floor || '?'} unit="floors" />
+          <HomeField label="Number of floors" value={home.floors || '?'} unit="floors" />
         </div>
         <div className="mb-2">
           <HomeField label="Number of rooms" value={home.rooms} unit="rooms" />
